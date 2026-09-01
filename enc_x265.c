@@ -179,6 +179,19 @@ static GF_Err x265enc_setup(GF_Filter *filter, GF_X265EncCtx *ctx)
 	ctx->param->fpsDenom = ctx->fps.den ? ctx->fps.den : 1;
 	ctx->param->internalCsp = X265_CSP_I420;
 
+	/* force single-threaded: this WASM build links pthread symbols (x265's
+	 * CMakeLists.txt unconditionally appends it on UNIX-like systems, which
+	 * Emscripten's toolchain reports as) but this project's solver targets
+	 * are not linked with -pthread/-sUSE_PTHREADS, so any thread pool x265
+	 * tries to spin up per frameNumThreads/numaPools auto-detection can
+	 * hang forever waiting on a thread that never actually schedules -
+	 * same class of issue libx264 avoids via its --disable-thread configure
+	 * flag. */
+	ctx->param->frameNumThreads = 1;
+	ctx->param->lookaheadThreads = 1;
+	ctx->param->bEnableWavefront = 0;
+	strncpy(ctx->param->numaPools, "none", X265_MAX_STRING_SIZE - 1);
+
 	ctx->param->rc.rateControlMode = X265_RC_ABR;
 	ctx->param->rc.bitrate = (int)ctx->bitrate;
 
@@ -437,7 +450,7 @@ GF_FilterRegister X265EncRegister = {
 	.finalize = x265enc_finalize,
 };
 
-const GF_FilterRegister * EMSCRIPTEN_KEEPALIVE dynCall_encx265_register(GF_FilterSession *session)
+const GF_FilterRegister * EMSCRIPTEN_KEEPALIVE encx265_register(GF_FilterSession *session)
 {
 	return &X265EncRegister;
 }
@@ -445,5 +458,5 @@ const GF_FilterRegister * EMSCRIPTEN_KEEPALIVE dynCall_encx265_register(GF_Filte
 #include "filter_register.h"
 __attribute__((constructor))
 void register_encx265(void) {
-    gf_filter_auto_register("encx265", dynCall_encx265_register);
+    gf_filter_auto_register("encx265", encx265_register);
 }
