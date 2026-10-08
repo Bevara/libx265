@@ -10,5 +10,6 @@
     "filter_source":{
         "encx265" : "enc_x265.c"
     },
-    "licence_required":true
+    "licence_required":true,
+    "using": ["solver_1"]
 }
