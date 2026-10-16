@@ -10,6 +10,10 @@
     "filter_source":{
         "encx265" : "enc_x265.c"
     },
-    "licence_required":true,
-    "using": ["solver_1"]
+    "using": ["solver_1"],
+    "patents": {
+        "status": "licence-required",
+        "note": "HEVC encoding: Access Advance, Via LA",
+        "checked": "2026-10-16"
+    }
 }
