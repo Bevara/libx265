@@ -10,7 +10,7 @@
     "filter_source":{
         "encx265" : "enc_x265.c"
     },
-    "using": ["mm_solver_1.0.1", "mm_solver_1.0.2"],
+    "using": ["mm_solver_1.0.1", "mm_solver_1.0.2", "mm_solver_1.0.3", "mm_solver_1.0.4"],
     "patents": {
         "status": "licence-required",
         "note": "HEVC encoding: Access Advance, Via LA",
