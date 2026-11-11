@@ -1,16 +1,24 @@
 {
     "name": "libx265",
     "description": "HEVC encoder (native libx265)",
-    "filters":["encx265"],
+    "filters": [
+        "encx265"
+    ],
     "help": "This filter encodes a raw YUV420 video PID to HEVC by calling libx265's native API directly, without going through FFmpeg.",
     "support": [
         "video"
     ],
-    "sources":"https://bevara.ddns.net/sources/libx265.accessor",
-    "filter_source":{
-        "encx265" : "enc_x265.c"
+    "sources": "https://bevara.ddns.net/sources/libx265.accessor",
+    "filter_source": {
+        "encx265": "enc_x265.c"
     },
-    "using": ["mm_solver_1.0.1", "mm_solver_1.0.2", "mm_solver_1.0.3", "mm_solver_1.0.4"],
+    "using": [
+        "mm_solver_1.0.1",
+        "mm_solver_1.0.2",
+        "mm_solver_1.0.3",
+        "mm_solver_1.0.4",
+        "mm_solver_1.0.5"
+    ],
     "patents": {
         "status": "licence-required",
         "note": "HEVC encoding: Access Advance, Via LA",
